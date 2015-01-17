@@ -1,0 +1,81 @@
+/* Empty. Add your own CSS if you like */
+.mood-buttons {
+	text-align: center;
+}
+
+.mood-button {
+	color: #fff;
+	height: 46.4px;
+	border: 0;
+	font-weight: bold;	
+}
+
+.mood-1 {
+	background: #000;
+}
+.mood-2 {
+	background: #16258E;
+}
+.mood-3 {
+	background: #35539F;
+}
+.mood-4 {
+	background: #A8B9E7;
+}
+.mood-5 {
+	background: #D4D8D7;
+}
+.mood-6 {
+	background: #B5E7E7;
+}
+.mood-7 {
+	background: #83E7C4;
+}
+.mood-8 {
+	background: #6BE793;
+}
+.mood-9 {
+	background: #46E765;
+}
+.mood-10 {
+	background: #51E700;
+}
+
+.mood-bar {
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	left: 0;
+	z-index: -10;
+}
+
+.mood-bar.mood-1 {
+	width: 10%;
+}
+.mood-bar.mood-2 {
+	width: 20%;
+}
+.mood-bar.mood-3 {
+	width: 30%;
+}
+.mood-bar.mood-4 {
+	width: 40%;
+}
+.mood-bar.mood-5 {
+	width: 50%;
+}
+.mood-bar.mood-6 {
+	width: 60%;
+}
+.mood-bar.mood-7 {
+	width: 70%;
+}
+.mood-bar.mood-8 {
+	width: 80%;
+}
+.mood-bar.mood-9 {
+	width: 90%;
+}
+.mood-bar.mood-10 {
+	width: 100%;
+}

@@ -1,0 +1,12 @@
+<ion-view view-title="Mood history">
+  <div ng-if="!loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Make an account to backup and sync data</h5></div>
+  <ion-content>
+	<ion-list 
+		ng-controller="HistoryCtrl">
+		<ion-item ng-repeat="entry in mood.data | orderObjectBy:'userTimestamp':true">
+			<div class="mood-bar mood-{{entry.level}}" on-swipe="registerSwipe()"></div>
+			{{entry.level}} - <span am-time-ago="entry.userTimestamp"></span> - {{entry.userTimestamp | amDateFormat:'h:mm DD/MM/YY'}}
+		</ion-item>
+	</ion-list>
+  </ion-content>
+</ion-view>

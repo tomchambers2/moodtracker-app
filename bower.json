@@ -1,0 +1,18 @@
+{
+  "name": "moodtracker2",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-beta.14"
+  },
+  "dependencies": {
+    "firebase": "~2.1.1",
+    "ngCordova": "~0.1.10-alpha",
+    "moment": "~2.9.0",
+    "angular-moment": "~0.9.0",
+    "angularjs-toaster": "~0.4.10",
+    "AngularJS-Toaster": "~0.4.10"
+  },
+  "resolutions": {
+    "firebase": "2.1.x"
+  }
+}
