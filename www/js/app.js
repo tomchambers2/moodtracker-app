@@ -1,94 +1,88 @@
-// Ionic Starter App
+  // Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', [
-  'ionic',
-  'moodLogging',
-  'ionic.utils',
-  'starter.controllers',
-  'ngCordova',
-  'firebase',
-  'angularMoment',
-  'toaster',
-  'filters',
-  'variantTools'
-])
+  // angular.module is a global place for creating, registering and retrieving Angular modules
+  // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+  // the 2nd parameter is an array of 'requires'
+  // 'starter.services' is found in services.js
+  // 'starter.controllers' is found in controllers.js
+    window.onerror = function (errorMsg, url, lineNumber) {
+        alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+    }  
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+    angular.module('starter', ['ionic','moodLogging','ionic.utils','starter.controllers','ngCordova','angularMoment','filters','variantTools','directives'])
 
-.config(function($stateProvider, $urlRouterProvider) {
-
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
-
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
-  })
-
-  // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
-  .state('tab.history', {
-      url: '/history',
-      views: {
-        'tab-history': {
-          templateUrl: 'templates/tab-history.html',
-          controller: 'HistoryCtrl'
+    .run(function($ionicPlatform) {
+      $ionicPlatform.ready(function() {
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
-      }
-    })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
-      views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+        if (window.StatusBar) {
+          // org.apache.cordova.statusbar required
+          StatusBar.styleDefault();
         }
-      }
+      });
     })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-settings': {
-        templateUrl: 'templates/tab-settings.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+    .config(function($stateProvider, $urlRouterProvider) {
+      console.log('config loads');
+      // Ionic uses AngularUI Router which uses the concept of states
+      // Learn more here: https://github.com/angular-ui/ui-router
+      // Set up the various states which the app can be in.
+      // Each state's controller can be found in controllers.js
+      $stateProvider
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+      // setup an abstract state for the tabs directive
+        .state('tab', {
+        url: "/tab",
+        abstract: true,
+        templateUrl: "templates/tabs.html"
+      })
 
-});
+      // Each tab has its own nav history stack:
+
+      .state('tab.dash', {
+        url: '/dash',
+        views: {
+          'tab-dash': {
+            templateUrl: 'templates/tab-dash.html',
+            controller: 'DashCtrl'
+          }
+        }
+      })
+
+      .state('tab.history', {
+          cache: false,
+          url: '/history',
+          views: {
+            'tab-history': {
+              templateUrl: 'templates/tab-history.html',
+              controller: 'HistoryCtrl'
+            }
+          }
+        })
+        .state('tab.friend-detail', {
+          url: '/friend/:friendId',
+          views: {
+            'tab-friends': {
+              templateUrl: 'templates/friend-detail.html',
+              controller: 'FriendDetailCtrl'
+            }
+          }
+        })
+
+      .state('tab.account', {
+        url: '/account',
+        views: {
+          'tab-settings': {
+            templateUrl: 'templates/tab-settings.html',
+            controller: 'AccountCtrl'
+          }
+        }
+      });
+
+      // if none of the above states are matched, use this as the fallback
+      $urlRouterProvider.otherwise('/tab/dash');
+
+    });

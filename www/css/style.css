@@ -1,4 +1,13 @@
 /* Empty. Add your own CSS if you like */
+.list .item {
+	border-color: #E4E4E4;
+	border-bottom-color: #000;
+}
+
+.bar-alert {
+	height: 120px;
+}
+
 .mood-buttons {
 	text-align: center;
 }
@@ -10,8 +19,12 @@
 	font-weight: bold;	
 }
 
+.mood-button.activated {
+	opacity: 0.4;
+}
+
 .mood-1 {
-	background: #000;
+	background: #080E37;
 }
 .mood-2 {
 	background: #16258E;
@@ -23,7 +36,7 @@
 	background: #A8B9E7;
 }
 .mood-5 {
-	background: #D4D8D7;
+	background: #D4D8E9;
 }
 .mood-6 {
 	background: #B5E7E7;
@@ -43,8 +56,9 @@
 
 .mood-bar {
 	position: absolute;
+
 	bottom: 0;
-	top: 0;
+	height: 12px;
 	left: 0;
 	z-index: -10;
 }

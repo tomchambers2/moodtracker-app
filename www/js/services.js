@@ -1,10 +1,16 @@
 angular.module('variantTools', [])
 
 .service('messenger', ['$cordovaToast', function($cordovaToast) {
+  var send = function(message) {
+    document.addEventListener('deviceready', function() {
+      $cordovaToast.showShortTop(message);
+    });
+  };
+
   return {
-    warning: $cordovaToast.showShortTop,
-    error: $cordovaToast.showShortTop,
-    success: $cordovaToast.showShortTop
+    warning: send,
+    error: send,
+    success: send
   }
 }])
 
@@ -178,7 +184,7 @@ angular.module('moodLogging', [])
   };
 }])
 
-.service('$sync', ['$connect', '$auth', '$localStorage', '$rootScope','$timeout', function($connect, $auth, $localStorage, $rootScope, $timeout) {
+.service('$sync', ['$connect', '$auth', '$localStorage', '$rootScope','$timeout','messenger', function($connect, $auth, $localStorage, $rootScope, $timeout, messenger) {
   var ref = $connect.ref;
 
   var doSync = function(key) {
@@ -189,12 +195,11 @@ angular.module('moodLogging', [])
           if (error) {
             console.log("error syncing", error, 'user data:', $auth.getUserData());
           } else {
-            console.log('popping');
             $localStorage.pop(key);
           }
         });
-        toastr.success('Synced '+data.length+' records');
       }
+      messenger.success('Synced '+data.length+' records');
     }        
   };  
 
