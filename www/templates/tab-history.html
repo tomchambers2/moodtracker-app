@@ -1,14 +1,24 @@
-<ion-view view-title="Mood history">
-  <div ng-if="!loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Make an account to backup and sync data</h5>
+<ion-view>
+  <div ng-if="!loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Make an account to backup and sync data</h5></div>
+
+  <div ng-if="loggedIn" class="bar bar-subheader bar-energized text-center">
+	<ion-toggle toggle-class="toggle-calm"></ion-toggle>
   </div>
+
   <sync-checker></sync-checker>
-  <ion-content>
+  <ion-content class="has-subheader">
+     
 	<ion-list 
-		ng-controller="HistoryCtrl">
+		ng-controller="HistoryCtrl"
+		show-delete="showDelete">
+	    <ion-toggle ng-model="showDelete" toggle-class="toggle-assertive">
+	  		Show delete button
+	    </ion-toggle>
 		<ion-item ng-repeat="entry in mood.data | orderObjectBy:'userTimestamp':true">
-			<div class="mood-bar mood-{{entry.level}}" on-swipe="registerSwipe()"></div>
+			<div class="mood-bar mood-{{entry.level}}"></div>
 			<strong>{{entry.level}}</strong> - <span am-time-ago="entry.userTimestamp"></span> - {{entry.userTimestamp | amDateFormat:'h:mm DD/MM/YY'}}
 			<i ng-if="entry.offline" class="ion-alert-circled"></i>
+			<ion-delete-button class="ion-minus-circled" ng-click="deleteRecord(entry.id, entry.offline)"></ion-delete-button>
 		</ion-item>
 	</ion-list>
   </ion-content>

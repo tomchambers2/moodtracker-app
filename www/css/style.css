@@ -4,6 +4,13 @@
 	border-bottom-color: #000;
 }
 
+.logo {
+	margin: auto;
+	height: 40px;
+	position: relative;
+	z-index: 50;
+}
+
 .bar-alert {
 	height: 120px;
 }

@@ -9,7 +9,7 @@
         alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
     }  
 
-    angular.module('starter', ['ionic','moodLogging','ionic.utils','starter.controllers','ngCordova','angularMoment','filters','variantTools','directives'])
+    angular.module('starter', ['ionic','moodLogging','utils','starter.controllers','ngCordova','angularMoment','filters','variantTools','directives'])
 
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
@@ -26,7 +26,6 @@
     })
 
     .config(function($stateProvider, $urlRouterProvider) {
-      console.log('config loads');
       // Ionic uses AngularUI Router which uses the concept of states
       // Learn more here: https://github.com/angular-ui/ui-router
       // Set up the various states which the app can be in.

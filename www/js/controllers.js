@@ -10,13 +10,25 @@ angular.module('starter.controllers', [])
 
 .controller('HistoryCtrl', function($scope, $data, $timeout, $auth) {
     $scope.loggedIn = $auth.check();
-
+ 
     $scope.mood = {};
     $data.getMoodlogNumbers(function(data) {        
       $timeout(function() {
         $scope.mood.data = data;
+        for (var id in data) {
+          console.log(JSON.stringify(data[id]));
+        }
       });
     });
+
+    $scope.deleteRecord = function(id, offline) {
+      $data.deleteRecord(id, offline).then(function() {
+        messenger.success('Mood record deleted');
+      }, function() {
+        messenger.error('Couldn\'t delete mood record');
+        throw new Error('Deleting a mood record failed',id);
+      })
+    };    
 })
 
 .controller('AccountCtrl', function($scope, $connect, $timeout, $auth, $data, $sync, $localStorage, messenger, $cordovaLocalNotification) {

@@ -1,12 +1,11 @@
-<ion-view view-title="Settings">
+<ion-view>
 
   <ion-header-bar ng-if="!loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Login or register</h5></ion-header-bar>
 
   <ion-header-bar ng-if="loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Manage reminders</h5></ion-header-bar>
 
   <ion-content class="has-subheader">
-      <section ng-if="!loggedIn">
-
+      <section ng-if="!loggedIn" class="padding-horizontal">
         <div class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label">Email</span>
@@ -24,16 +23,6 @@
       <section ng-if="loggedIn">
         <div class="card">
           <div class="item item-text-wrap">
-            <h2>Add reminder</h2>
-          </div>
-          <div class="item">
-            <label class="item item-input item-floating-label">Reminder time (24 hour):<input type="time" ng-model="input.time"></label>
-            <button class="button button-block button-positive" ng-click="addReminder()">Add reminder</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="item item-text-wrap">
             <h2>Existing daily reminders</h2>
           </div>
           <div class="item">
@@ -45,11 +34,21 @@
 
             <button ng-if="reminders.length" class="button button-block button-assertive" ng-click="clearReminders()">Clear all</button>
           </div>
-        </div>        
+        </div> 
+
+        <div class="card">
+          <div class="item item-text-wrap">
+            <h2>New reminders</h2>
+          </div>
+          <div class="item">
+            <label class="item item-input item-floating-label">Reminder time (24 hour):<input type="time" ng-model="input.time"></label>
+            <button class="button button-block button-positive" ng-click="addReminder()">Add reminder at {{input.time | amDateFormat:'h:mm a'}}</button>
+          </div>
+        </div>       
     
-        <p>
+        <div class="padding-horizontal">
           <button class="button button-block button-assertive" ng-click="doLogout()">Logout {{userEmail}}</button>
-        </p>
+        </div>
       </section>
   </ion-content>
 </ion-view>
