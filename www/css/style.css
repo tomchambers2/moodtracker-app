@@ -1,4 +1,15 @@
 /* Empty. Add your own CSS if you like */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+
 .list .item {
 	border-color: #E4E4E4;
 	border-bottom-color: #000;
@@ -8,11 +19,10 @@
 	margin: auto;
 	height: 40px;
 	position: relative;
-	z-index: 50;
 }
 
 .bar-alert {
-	height: 120px;
+	height: 157.5px;
 }
 
 .mood-buttons {

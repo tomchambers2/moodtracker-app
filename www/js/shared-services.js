@@ -68,6 +68,8 @@ angular.module('moodLogging', [])
       data = {};
     };    
 
+    console.log('UNAUTH',data);
+
     for (var i = 0; i < anonData.length; i++) {
       anonData[i].offline = 'unauth';
       data[anonData[i].userTimestamp] = anonData[i];
@@ -80,12 +82,17 @@ angular.module('moodLogging', [])
     var data;
 
     function appendData() {
+      for (var id in data) {
+        data[id].id = id;
+      }
       var appendedData = appendOfflineData(data);
       appendedData = appendUnauthData(appendedData);
-      callback(appendedData);      
+      console.log('sending appended data',appendedData);
+      callback(appendedData);  
     }
 
     $rootScope.$on('moods_changed', function() {
+      console.log("MOOD CHANGED!!!");
       appendData();
     });
 
@@ -171,6 +178,7 @@ angular.module('moodLogging', [])
             resolve();
           }
         };
+        console.log("ID",id);
         ref.child('moodlogNumbers').child(authData.uid).child(id).remove(onComplete);
       }
     });
@@ -197,6 +205,7 @@ angular.module('moodLogging', [])
             throw new Error("error syncing", error, 'user data:', $auth.getUserData());
           } else {
             $localStorage.pop(key);
+            console.log('data left',$localStorage.getObject(key));
             $rootScope.$broadcast('moods_changed');
           }
         });
@@ -204,6 +213,23 @@ angular.module('moodLogging', [])
       messenger.success('Synced '+data.length+' records');
     }        
   };  
+
+  var unauthSync = function() {
+    doSync('moods');
+  };
+
+  var unauthClear = function() {
+    $localStorage.setObject('moods', []);
+    $rootScope.$apply();
+  };  
+
+  var checkUnauthSync = function() {
+    if (!$auth.check()) return;
+    var unauthLength = $localStorage.length('moods');
+    if (unauthLength) {
+      $rootScope.$emit('unauthSync', unauthLength, unauthSync, unauthClear);
+    };
+  };      
 
   var sync = function() {
     if ($auth.check()) {
@@ -219,15 +245,6 @@ angular.module('moodLogging', [])
 
       doSync($auth.uid+'offlineMoods');
 
-      var unauthSync = function() {
-        doSync('moods');
-      };
-
-      var unauthClear = function() {
-        $localStorage.setObject('moods', []);
-        $rootScope.$apply();
-      };
-
       var unauthLength = $localStorage.length('moods');
       if (unauthLength) {
         $rootScope.$emit('unauthSync', unauthLength, unauthSync, unauthClear);
@@ -237,7 +254,7 @@ angular.module('moodLogging', [])
 
   return {
     sync: sync,
-    
+    checkUnauthSync: checkUnauthSync
   }
 }]);
 

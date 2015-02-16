@@ -5,7 +5,10 @@
   <ion-header-bar ng-if="loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Manage reminders</h5></ion-header-bar>
 
   <ion-content class="has-subheader">
-      <section ng-if="!loggedIn" class="padding-horizontal">
+      <section ng-if="!loggedIn" class="card">
+              <div class="item item-text-wrap">
+         <h2>Login</h2>
+      </div>
         <div class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label">Email</span>
@@ -16,9 +19,22 @@
             <input type="password" ng-model="loginForm.password"  placeholder="password">
           </label>          
         </div>
-        <button class="button button-block button-positive" ng-click="doLogin()">Login</button>
-        <button class="button button-block button-positive" ng-click="doRegister()">Register</button>   
+        <div class="button-bar padding-horizontal"><button class="button button-block button-positive" ng-click="doLogin()">Login</button>
+          <button class="button button-block button-positive" ng-click="doRegister()">Register</button></div>  
       </section>
+
+      <div class="card" ng-if="!loggedIn">
+        <div class="item item-text-wrap">
+            <h2>I forgot my password</h2>
+        </div>
+        <div class="item">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Email</span>
+            <input type="text" ng-model="resetForm.email" placeholder="email">
+          </label>
+          <button class="button button-block button-positive" ng-click="doPasswordReset()">Send new password</button>
+        </div>
+      </div>
 
       <section ng-if="loggedIn">
         <div class="card">
@@ -30,7 +46,7 @@
               <ion-item ng-repeat="id in reminders track by $index"><ion-delete-button class="ion-minus-circled" ng-click="deleteReminder(id)"></ion-delete-button> {{id}}</ion-item>
             </ion-list>
 
-            <span ng-if="!reminders.length" class="text-center muted">Add a daily reminder above</span>
+            <span ng-if="!reminders.length" class="muted">Use box below to add first reminder</span>
 
             <button ng-if="reminders.length" class="button button-block button-assertive" ng-click="clearReminders()">Clear all</button>
           </div>
@@ -44,7 +60,45 @@
             <label class="item item-input item-floating-label">Reminder time (24 hour):<input type="time" ng-model="input.time"></label>
             <button class="button button-block button-positive" ng-click="addReminder()">Add reminder at {{input.time | amDateFormat:'h:mm a'}}</button>
           </div>
-        </div>       
+        </div>  
+
+        <section class="card">
+          <div class="item item-text-wrap">
+            <h2>Change your email</h2>
+          </div>          
+          <div class="list">
+            <label class="item item-input item-floating-label">
+              <span class="input-label">New email address</span>
+              <input type="email" ng-model="emailForm.newEmail" placeholder="new email">
+            </label>    
+            <label class="item item-input item-floating-label">
+              <span class="input-label">Password</span>
+              <input type="password" ng-model="emailForm.password" placeholder="password">
+            </label>
+          </div>
+          <div class="item">
+            <button class="button button-block button-positive" ng-click="doChangeEmail()">Change email</button>
+          </div>
+        </section>  
+
+        <section class="card">
+          <div class="item item-text-wrap">
+            <h2>Change your password</h2>
+          </div>          
+          <div class="list">
+            <label class="item item-input item-floating-label">
+              <span class="input-label">Old password</span>
+              <input type="password" ng-model="changeForm.oldPassword" placeholder="old password">
+            </label>
+            <label class="item item-input item-floating-label">
+              <span class="input-label">New password</span>
+              <input type="password" ng-model="changeForm.newPassword"  placeholder="new password">
+            </label>          
+          </div>
+          <div class="item">
+            <button class="button button-block button-positive" ng-click="doChangePassword()">Change password</button>
+          </div>
+        </section>  
     
         <div class="padding-horizontal">
           <button class="button button-block button-assertive" ng-click="doLogout()">Logout {{userEmail}}</button>

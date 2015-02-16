@@ -1,12 +1,9 @@
 <ion-view>
   <div ng-if="!loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Make an account to backup and sync data</h5></div>
 
-  <div ng-if="loggedIn" class="bar bar-subheader bar-energized text-center">
-	<ion-toggle toggle-class="toggle-calm"></ion-toggle>
-  </div>
-
   <sync-checker></sync-checker>
-  <ion-content class="has-subheader">
+
+  <ion-content>
      
 	<ion-list 
 		ng-controller="HistoryCtrl"
@@ -19,6 +16,10 @@
 			<strong>{{entry.level}}</strong> - <span am-time-ago="entry.userTimestamp"></span> - {{entry.userTimestamp | amDateFormat:'h:mm DD/MM/YY'}}
 			<i ng-if="entry.offline" class="ion-alert-circled"></i>
 			<ion-delete-button class="ion-minus-circled" ng-click="deleteRecord(entry.id, entry.offline)"></ion-delete-button>
+		</ion-item>
+
+		<ion-item ng-if="!mood.data">
+			<strong>You have not saved any moods yet</strong>
 		</ion-item>
 	</ion-list>
   </ion-content>

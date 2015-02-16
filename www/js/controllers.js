@@ -8,16 +8,13 @@ angular.module('starter.controllers', [])
   };  
 })
 
-.controller('HistoryCtrl', function($scope, $data, $timeout, $auth) {
+.controller('HistoryCtrl', function($scope, $data, $timeout, $auth, messenger) {
     $scope.loggedIn = $auth.check();
  
     $scope.mood = {};
     $data.getMoodlogNumbers(function(data) {        
       $timeout(function() {
         $scope.mood.data = data;
-        for (var id in data) {
-          console.log(JSON.stringify(data[id]));
-        }
       });
     });
 
@@ -34,6 +31,9 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope, $connect, $timeout, $auth, $data, $sync, $localStorage, messenger, $cordovaLocalNotification) {
   $scope.loggedIn = $auth.check();
   $scope.loginForm = {};
+  $scope.resetForm = {};
+  $scope.changeForm = {};
+  $scope.emailForm = {};
   $scope.input = {
     time: new Date()
   };
@@ -44,6 +44,7 @@ angular.module('starter.controllers', [])
   var afterLogin = function(error, authData) {
     if (error) { 
       console.log(error); 
+      messenger.error(error.message);
       return;
     }
     $scope.loggedIn = $auth.check();
@@ -55,24 +56,114 @@ angular.module('starter.controllers', [])
   };
 
   $scope.doLogin = function() {
+    if (!$scope.loginForm.email && !$scope.loginForm.password) {
+      messenger.error('Enter email and password then tap login');
+      return;
+    } else if (!$scope.loginForm.email) {
+      messenger.error('Enter your email then tap login');
+      return;
+    } else if (!$scope.loginForm.password) {
+      messenger.error('Enter your password then tap login');
+      return;
+    }
+
    ref.authWithPassword({
       email    : $scope.loginForm.email,
       password : $scope.loginForm.password
     }, afterLogin);     
   }
 
+  var loginAfterEmailChange = function(email, password) {
+   ref.authWithPassword({
+      email    : email,
+      password : password
+    }, afterLogin);    
+  }
+
   $scope.doRegister = function() {
+    if (!$scope.loginForm.email && !$scope.loginForm.password) {
+      messenger.error('Enter email and password then tap register');
+      return;
+    } else if (!$scope.loginForm.email) {
+      messenger.error('Enter email then tap register');
+      return;
+    } else if (!$scope.loginForm.password) {
+      messenger.error('Enter a password then tap register');
+      return;
+    }
+
     ref.createUser({
       email    : $scope.loginForm.email,
       password : $scope.loginForm.password
     }, function(error) {
       if (error) {
-        console.log(error);
-        messenger.danger(error);
+        messenger.error(error.message);
         return;
       }
       messenger.success('Created account');
       $scope.doLogin($scope.loginForm.email, $scope.loginForm.password);
+    });
+  }
+
+  $scope.doPasswordReset = function() {
+    if (!$scope.resetForm.email) {
+      messenger.warning('Please enter the email you want to reset the password for');
+    }
+    ref.resetPassword({
+      email: $scope.resetForm.email
+    }, function(error) {
+      if (error) {
+        messenger.error(error.message);
+        throw new Error('Could not reset password',$scope.resetForm.email);
+      }
+      messenger.success('Your new password has been emailed to '+$scope.resetForm.email);
+      $timeout(function() {
+        $scope.resetForm.email = '';
+      })
+    });
+  }
+
+  $scope.doChangeEmail = function() {
+    if (!$scope.emailForm.newEmail) {
+      messenger.warning('Please enter the new email address');
+      return;
+    } else if (!$scope.emailForm.password) {
+      messenger.warning('Please enter your current password to change email');
+      return;
+    }
+
+    ref.changeEmail({
+      oldEmail: $auth.getUserData().password.email,
+      newEmail: $scope.emailForm.newEmail,
+      password: $scope.emailForm.password
+    }, function(error) {
+      if (error) {
+        messenger.error(error.message);
+        throw new Error('Could not reset password '+$scope.emailForm.email);
+      }
+      loginAfterEmailChange($scope.emailForm.email, $scope.emailForm.password);
+      $scope.email = $scope.emailForm.newEmail;
+      messenger.success('Your email has been changed to '+$scope.emailForm.email);
+    });    
+  }
+
+  $scope.doChangePassword = function() {
+    if (!$scope.changeForm.oldPassword || !$scope.changeForm.newPassword) {
+      messenger.warning('Please enter both your old and new password');
+      return;
+    }
+
+    ref.changePassword({
+      email: $auth.getUserData().password.email,
+      oldPassword: $scope.changeForm.oldPassword,
+      newPassword: $scope.changeForm.newPassword
+    }, function(error) {
+      if (error) {
+        messenger.error(error.message);
+        throw new Error('Could not reset password');
+      }
+      messenger.success('Your password has been changed');
+      $scope.changeForm = {};
     });
   }
 
