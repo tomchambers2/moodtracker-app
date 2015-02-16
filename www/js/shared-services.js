@@ -68,8 +68,6 @@ angular.module('moodLogging', [])
       data = {};
     };    
 
-    console.log('UNAUTH',data);
-
     for (var i = 0; i < anonData.length; i++) {
       anonData[i].offline = 'unauth';
       data[anonData[i].userTimestamp] = anonData[i];
@@ -92,8 +90,8 @@ angular.module('moodLogging', [])
     }
 
     $rootScope.$on('moods_changed', function() {
-      console.log("MOOD CHANGED!!!");
       appendData();
+      callback(appendedData);       
     });
 
     if ($connection.getStatus() && $auth.check()) {
@@ -205,8 +203,7 @@ angular.module('moodLogging', [])
             throw new Error("error syncing", error, 'user data:', $auth.getUserData());
           } else {
             $localStorage.pop(key);
-            console.log('data left',$localStorage.getObject(key));
-            $rootScope.$broadcast('moods_changed');
+            $rootScope.$emit('moods_changed');
           }
         });
       }
@@ -220,7 +217,8 @@ angular.module('moodLogging', [])
 
   var unauthClear = function() {
     $localStorage.setObject('moods', []);
-    $rootScope.$apply();
+    $rootScope.$emit('moods_changed');
+    messenger.success('Deleted anonymous moods');
   };  
 
   var checkUnauthSync = function() {
