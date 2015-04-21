@@ -5,6 +5,12 @@
   <ion-header-bar ng-if="loggedIn" class="bar bar-subheader bar-energized text-center"><h5>Manage reminders</h5></ion-header-bar>
 
   <ion-content class="has-subheader">
+      <section class="card">
+        <p class="padding-horizontal"><strong>Have you seen our web app?</strong> You can see a graph of your mood history.
+          Visit <a href="http://harmonymoodtracker.com">www.harmonymoodtracker.com</a> in your computer's browser.
+        </p>
+      </section>
+
       <section ng-if="!loggedIn" class="card">
               <div class="item item-text-wrap">
          <h2>Login</h2>
@@ -104,5 +110,15 @@
           <button class="button button-block button-assertive" ng-click="doLogout()">Logout {{userEmail}}</button>
         </div>
       </section>
+
+      <section>
+        <div class="padding-horizontal">
+          <button class="button button-block button-assertive" ng-click="debug()">Debug</button>
+        </div>
+      </section>
+
+      <p class="text-center">
+        <a href="https://www.docracy.com/0ahca57mi0j/harmony-mood-tracker-app-privacy-policy">Privacy policy</a>
+      </p>
   </ion-content>
 </ion-view>

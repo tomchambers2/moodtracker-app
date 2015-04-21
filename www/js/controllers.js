@@ -1,14 +1,17 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $data) {
-  console.log('dash is loading');
+  mixpanel.track('record', { device: 'mobile' });
 
   $scope.saveMood = function(mood) {
+    mixpanel.track('save_mood', { level: mood });
     $data.saveMood(mood);
   };  
 })
 
 .controller('HistoryCtrl', function($scope, $data, $timeout, $auth, messenger) {
+    mixpanel.track('main', { device: 'mobile' });
+
     $scope.loggedIn = $auth.check();
  
     $scope.mood = {};
@@ -19,6 +22,7 @@ angular.module('starter.controllers', [])
     });
 
     $scope.deleteRecord = function(id, offline) {
+      mixpanel.track('deleteMood');
       $data.deleteRecord(id, offline).then(function() {
         messenger.success('Mood record deleted');
       }, function() {
@@ -29,6 +33,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, $connect, $timeout, $auth, $data, $sync, $localStorage, messenger, $cordovaLocalNotification) {
+  mixpanel.track('settings', { device: 'mobile' });
+
   $scope.loggedIn = $auth.check();
   $scope.loginForm = {};
   $scope.resetForm = {};
@@ -56,6 +62,8 @@ angular.module('starter.controllers', [])
   };
 
   $scope.doLogin = function() {
+    mixpanel.track('login');
+
     if (!$scope.loginForm.email && !$scope.loginForm.password) {
       messenger.error('Enter email and password then tap login');
       return;
@@ -81,6 +89,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doRegister = function() {
+    mixpanel.track('register');
     if (!$scope.loginForm.email && !$scope.loginForm.password) {
       messenger.error('Enter email and password then tap register');
       return;
@@ -106,6 +115,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doPasswordReset = function() {
+    mixpanel.track('passwordReset');
     if (!$scope.resetForm.email) {
       messenger.warning('Please enter the email you want to reset the password for');
     }
@@ -124,6 +134,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doChangeEmail = function() {
+    mixpanel.track('changeEmail');
     if (!$scope.emailForm.newEmail) {
       messenger.warning('Please enter the new email address');
       return;
@@ -148,6 +159,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doChangePassword = function() {
+    mixpanel.track('changePassword');
     if (!$scope.changeForm.oldPassword || !$scope.changeForm.newPassword) {
       messenger.warning('Please enter both your old and new password');
       return;
@@ -168,6 +180,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doLogout = function() {
+    mixpanel.track('logout');
     ref.unauth();
     $timeout(function() {
       $scope.loggedIn = $auth.check();
@@ -176,6 +189,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.clearReminders = function() {
+    mixpanel.track('clearReminders');
     $cordovaLocalNotification.cancelAll().then(function () {
       //currently the plugin is broken (not ng-cordova) and will not call this callback
       $scope.reminders = [];
@@ -188,6 +202,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.deleteReminder = function(id) {
+    mixpanel.track('deleteReminder');
     console.log('giving',id);
     $cordovaLocalNotification.cancel(id).then(function() {
       //currently the plugin is broken (not ng-cordova) and will not call this callback
@@ -231,7 +246,12 @@ angular.module('starter.controllers', [])
     messenger.success('Added reminder');
   };    
 
-  $scope.addReminder = function() {    
+  $scope.debug = function() {
+    alert($localStorage.getAll())
+  }
+
+  $scope.addReminder = function() {  
+    mixpanel.track('addReminder');  
     document.addEventListener('deviceready', function () {
       window.plugin.notification.local.hasPermission(function(granted) {
         if (!granted) {

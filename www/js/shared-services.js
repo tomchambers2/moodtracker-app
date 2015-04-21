@@ -16,6 +16,12 @@ angular.module('moodLogging', [])
   return {
     check: function() {
       var authData = ref.getAuth();
+      if (authData) {
+        mixpanel.identify(authData.uid);
+        mixpanel.people.set({
+          "$email": authData.password.email
+        });
+      }      
       return !!authData;
     },
 
@@ -265,6 +271,9 @@ angular.module('utils', [])
     },
     get: function(key, defaultValue) {
       return $window.localStorage[key] || defaultValue;
+    },
+    getAll: function() {
+      return JSON.stringify($window.localStorage);
     },
     setObject: function(key, value) {
       $window.localStorage[key] = JSON.stringify(value);

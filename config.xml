@@ -2,10 +2,10 @@
 <widget id="com.ionicframework.moodtracker2140320" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Harmony</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Harmony Mood Tracker for tracking your mood
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="tom.chambers@gmail.com" href="http://harmonymoodtracker.com/">
+      Tom Chambers
     </author>
   <content src="index.html"/>
   <access origin="*"/>

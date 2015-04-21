@@ -7,9 +7,10 @@
   // 'starter.controllers' is found in controllers.js
 
 
+    //uncomment these lines to turn on alert debug
     // window.onerror = function (errorMsg, url, lineNumber) {
     //     alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
-    // }  
+    // }
 
     angular.module('starter', ['ionic','moodLogging','utils','starter.controllers','ngCordova','angularMoment','filters','variantTools','directives'])
 
